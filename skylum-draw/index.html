@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Skylum Draw Pro</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- <link rel="icon" href="skylum-favicon.png" /> -->
+</head>
+<body>
+  <!-- Sidebar Navigasi -->
+  <aside class="sidebar">
+    <div class="logo">SKYLUM</div>
+    <nav>
+      <ul>
+        <li><button id="selectTool">Select</button></li>
+        <li><button id="drawVector">Vector</button></li>
+        <li><button id="textTool">Text</button></li>
+        <li><button id="layerTool">Layers</button></li>
+        <li><button id="effectTool">Effects</button></li>
+        <li><button id="cropTool">Crop</button></li>
+        <li><button id="collabTool">Collab</button></li>
+      </ul>
+    </nav>
+    <footer>
+      <button id="exportBtn">Export</button>
+      <button id="importBtn">Import</button>
+    </footer>
+  </aside>
+
+  <!-- Main Layout -->
+  <main class="main-layout">
+    <!-- Toolbar Dinamis -->
+    <div class="toolbar" id="toolbar"></div>
+    <!-- Canvas/Editor Area -->
+    <div class="canvas-area">
+      <div id="canvasContainer"></div>
+    </div>
+    <!-- Layer Panel -->
+    <div class="layer-panel" id="layerPanel">
+      <h3>Layers</h3>
+      <ul id="layerList"></ul>
+      <div class="layer-actions">
+        <button id="moveUpBtn">Up</button>
+        <button id="moveDownBtn">Down</button>
+        <button id="deleteLayerBtn">Delete</button>
+      </div>
+    </div>
+    <!-- Property Inspector -->
+    <div class="property-inspector" id="propertyInspector">
+      <h3>Properties</h3>
+      <div id="propertyContent"></div>
+    </div>
+  </main>
+
+  <!-- Floating Action Button (Mint, Save, Share) -->
+  <div class="fab-group">
+    <button class="fab mint" id="mintBtn">Mint</button>
+    <button class="fab save" id="saveBtn">Save</button>
+    <button class="fab share" id="shareBtn">Share</button>
+  </div>
+
+  <!-- Notification/Toast -->
+  <div id="toast" class="toast"></div>
+
+  <!-- SCRIPTS (modular per fitur) -->
+  <script type="module" src="vector-tools.js"></script>
+  <script type="module" src="text-tools.js"></script>
+  <script type="module" src="layers.js"></script>
+  <script type="module" src="effects.js"></script>
+  <script type="module" src="crop-select.js"></script>
+  <script type="module" src="collaboration.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

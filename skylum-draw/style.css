@@ -1,0 +1,300 @@
+/* === PALET WARNA BARU: CALM & PROFESSIONAL === */
+:root {
+  --bg-dark: #111111;         /* Latar belakang paling gelap */
+  --bg-medium: #18181B;       /* Latar belakang utama */
+  --surface-1: #27272A;       /* Permukaan panel & sidebar */
+  --surface-2: #3F3F46;       /* Permukaan elemen interaktif */
+  --border-color: #3f3f4650;  /* Warna border yang sangat halus */
+  --text-primary: #F4F4F5;    /* Teks utama (putih lembut) */
+  --text-secondary: #A1A1AA;  /* Teks sekunder (abu-abu) */
+  --accent-primary: #60A5FA;  /* Aksen biru yang lembut */
+  --accent-secondary: #FBBF24;/* Aksen kuning untuk notifikasi */
+}
+
+/* === PENGATURAN DASAR & FONT === */
+body {
+  background: var(--bg-medium);
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  display: flex;
+  overflow: hidden; /* Mencegah scroll pada body */
+}
+
+/* === SIDEBAR UTAMA (KIRI) === */
+.sidebar {
+  width: 68px;
+  background: var(--bg-dark);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 24px 0;
+  border-right: 1px solid var(--border-color);
+  z-index: 100;
+}
+
+.logo {
+  color: var(--text-primary);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 4px;
+  margin-bottom: 48px;
+}
+
+.sidebar nav ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.sidebar nav ul li button {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease-in-out;
+  /* Placeholder untuk Ikon */
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.sidebar nav ul li button:hover {
+  background: var(--surface-1);
+  color: var(--text-primary);
+}
+
+.sidebar nav ul li button.active {
+  background: var(--accent-primary);
+  color: #fff;
+}
+
+.sidebar footer {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sidebar footer button {
+  background: var(--surface-1);
+  color: var(--text-secondary);
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.sidebar footer button:hover {
+  background: var(--accent-primary);
+  color: #fff;
+}
+
+/* === LAYOUT UTAMA & CANVAS AREA === */
+.main-layout {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 280px; /* Area utama dan property inspector */
+  grid-template-rows: 64px 1fr; /* Toolbar dan area canvas */
+  grid-template-areas:
+    "toolbar inspector"
+    "canvas inspector";
+  height: 100vh;
+  position: relative;
+}
+
+.toolbar {
+  grid-area: toolbar;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 0 24px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.canvas-area {
+  grid-area: canvas;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 48px;
+  overflow: auto; /* Memungkinkan scroll jika canvas lebih besar */
+}
+
+#canvasContainer {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.1), 0 16px 48px rgba(0,0,0,0.5);
+  width: 90%;
+  height: 90%;
+}
+
+/* === PROPERTY INSPECTOR & LAYER PANEL (KANAN) === */
+.property-inspector {
+  grid-area: inspector;
+  background: var(--surface-1);
+  border-left: 1px solid var(--border-color);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.layer-panel {
+  /* Di dalam property inspector untuk layout yang lebih rapi */
+  background: var(--surface-2);
+  padding: 16px;
+  border-radius: 12px;
+}
+
+.property-inspector h3, .layer-panel h3 {
+  font-size: 0.9rem;
+  margin: 0 0 12px 0;
+  color: var(--text-primary);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+#layerList {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+#layerList li {
+  background: transparent;
+  margin: 4px 0;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  transition: all 0.2s ease-in-out;
+  border: 1px solid transparent;
+}
+
+#layerList li:hover {
+  background: rgba(255,255,255,0.05);
+  color: var(--text-primary);
+}
+
+#layerList li.selected {
+  background: var(--accent-primary);
+  color: #fff;
+  font-weight: 600;
+  border-color: transparent;
+}
+
+.layer-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 16px;
+}
+
+.layer-actions button {
+  flex: 1;
+  padding: 8px;
+  border-radius: 6px;
+  background: var(--surface-1);
+  color: var(--text-secondary);
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.layer-actions button:hover {
+  background: var(--accent-primary);
+  color: #fff;
+}
+
+/* === FLOATING ACTION BUTTONS === */
+.fab-group {
+  position: absolute;
+  bottom: 24px;
+  left: 92px; /* Disesuaikan dengan lebar sidebar */
+  display: flex;
+  gap: 12px;
+  z-index: 50;
+}
+
+.fab {
+  background: var(--surface-1);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 10px 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.fab.mint {
+  background: var(--accent-primary);
+  color: #fff;
+  border: none;
+}
+
+.fab:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+}
+
+/* === NOTIFICATION / TOAST === */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 220px;
+  text-align: center;
+  background: var(--accent-secondary);
+  color: var(--bg-dark);
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+  opacity: 0;
+  z-index: 100;
+  pointer-events: none;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  transform: translateY(20px) translateX(-50%);
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0) translateX(-50%);
+}
+
+/* === RESPONSIVE DESIGN === */
+@media (max-width: 1200px) {
+  .main-layout {
+    grid-template-columns: 1fr; /* Hanya area utama */
+    grid-template-rows: 64px 1fr;
+    grid-template-areas:
+      "toolbar"
+      "canvas";
+  }
+  .property-inspector {
+    display: none; /* Sembunyikan panel kanan di layar kecil */
+  }
+}
