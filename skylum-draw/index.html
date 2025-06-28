@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Skylum Draw Pro</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- <link rel="icon" href="skylum-favicon.png" /> -->
 </head>
 <body>
   <!-- Sidebar Navigasi -->
@@ -34,7 +33,9 @@
     <div class="toolbar" id="toolbar"></div>
     <!-- Canvas/Editor Area -->
     <div class="canvas-area">
-      <div id="canvasContainer"></div>
+      <div id="canvasContainer">
+        <!-- SVG canvas akan di-render otomatis oleh JS -->
+      </div>
     </div>
     <!-- Layer Panel -->
     <div class="layer-panel" id="layerPanel">
@@ -44,6 +45,8 @@
         <button id="moveUpBtn">Up</button>
         <button id="moveDownBtn">Down</button>
         <button id="deleteLayerBtn">Delete</button>
+        <button id="duplicateLayerBtn">Duplicate</button>
+        <button id="lockLayerBtn">Lock</button>
       </div>
     </div>
     <!-- Property Inspector -->
@@ -58,18 +61,20 @@
     <button class="fab mint" id="mintBtn">Mint</button>
     <button class="fab save" id="saveBtn">Save</button>
     <button class="fab share" id="shareBtn">Share</button>
+    <button class="fab export" id="exportSVGBtn">SVG</button>
+    <button class="fab export" id="exportPNGBtn">PNG</button>
   </div>
 
   <!-- Notification/Toast -->
   <div id="toast" class="toast"></div>
 
   <!-- SCRIPTS (modular per fitur) -->
-  <script type="module" src="vector-tools.js"></script>
-  <script type="module" src="text-tools.js"></script>
-  <script type="module" src="layers.js"></script>
-  <script type="module" src="effects.js"></script>
-  <script type="module" src="crop-select.js"></script>
-  <script type="module" src="collaboration.js"></script>
-  <script type="module" src="app.js"></script>
+  <script type="module" src="vector-tools.js" defer></script>
+  <script type="module" src="text-tools.js" defer></script>
+  <script type="module" src="layers.js" defer></script>
+  <script type="module" src="effects.js" defer></script>
+  <script type="module" src="crop-select.js" defer></script>
+  <script type="module" src="collaboration.js" defer></script>
+  <script type="module" src="app.js" defer></script>
 </body>
 </html>
