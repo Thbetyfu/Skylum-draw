@@ -1,5 +1,6 @@
 // text-tools.js
-import { vectorState, renderVector } from "./vector-tools.js";
+import { layers, addLayer, renderLayerPanel } from "./layers.js";
+import { renderVector } from "./vector-tools.js";
 
 let svg;
 let editingTextEl = null;
@@ -74,7 +75,7 @@ function onCanvasClickText(e) {
   };
 }
 
-// Menambahkan teks ke canvas (dan vectorState)
+// Menambahkan teks ke canvas (dan ke layers)
 function addTextSVG(x, y, value) {
   const textObj = {
     type: "text",
@@ -85,52 +86,11 @@ function addTextSVG(x, y, value) {
     opacity: textOptions.opacity,
     value
   };
-  vectorState.shapes.push(textObj);
+  addLayer(textObj); // Tambahkan ke layers
+  renderLayerPanel();
   renderVector();
 }
 
-// Render text di canvas (dipanggil dari renderVector di vector-tools.js)
-export function renderText(svgEl) {
-  // Dipanggil setiap kali vector di-render
-  vectorState.shapes.forEach((obj, i) => {
-    if (obj.type === "text") {
-      const el = document.createElementNS("http://www.w3.org/2000/svg", "text");
-      el.setAttribute("x", obj.x);
-      el.setAttribute("y", obj.y);
-      el.setAttribute("fill", obj.fill);
-      el.setAttribute("font-size", obj["font-size"]);
-      el.setAttribute("font-family", obj["font-family"]);
-      el.setAttribute("opacity", obj.opacity);
-      el.textContent = obj.value;
-      el.style.cursor = "move";
-      // Event drag text
-      let offset = {};
-      let moving = false;
-      el.onmousedown = ev => {
-        moving = true;
-        offset.x = ev.offsetX - obj.x;
-        offset.y = ev.offsetY - obj.y;
-        svgEl.onmousemove = moveEv => {
-          if (!moving) return;
-          obj.x = moveEv.offsetX - offset.x;
-          obj.y = moveEv.offsetY - offset.y;
-          renderVector();
-        };
-        svgEl.onmouseup = () => {
-          moving = false;
-          svgEl.onmousemove = null;
-          svgEl.onmouseup = null;
-        };
-      };
-      svgEl.appendChild(el);
-    }
-  });
-}
-
 // Integrasikan ke renderVector di vector-tools.js, contoh:
-/// --- Pada renderVector(), setelah render shape lain ---
-/*
-import { renderText } from "./text-tools.js";
-...
-renderText(svg);
-*/
+// --- Pada renderVector(), setelah render shape lain ---
+// (Sudah di-handle di vector-tools.js versi refaktor)
