@@ -1,6 +1,5 @@
 // effects.js
-// Modul efek: bayangan, opacity, blur, dsb
-
+// Property panel dinamis untuk objek terpilih (vector & text)
 import { layers, selectedLayer, renderLayerPanel } from "./layers.js";
 import { renderVector } from "./vector-tools.js";
 
@@ -112,4 +111,100 @@ export function selectLayerWithEffects(idx) {
   showEffectsPanel();
 }
 // **Pastikan selectLayer di layer.js dipakai selectLayerWithEffects di app.js**
+
+// Property panel dinamis untuk objek terpilih (vector & text)
+import { layers, selectedLayer, renderLayerPanel } from "./layers.js";
+import { renderVector } from "./vector-tools.js";
+
+const propertyContent = document.getElementById("propertyContent");
+
+export function renderPropertyPanel() {
+  propertyContent.innerHTML = "";
+  if (selectedLayer == null || !layers[selectedLayer]) {
+    propertyContent.innerHTML = "<div style='color:#888;'>Pilih satu objek untuk edit properti</div>";
+    return;
+  }
+  const obj = layers[selectedLayer];
+  // Fill color
+  if ("fill" in obj) {
+    const color = document.createElement("label");
+    color.innerHTML = `
+      <span style="margin-right:7px;">Fill</span>
+      <input type="color" id="propFill" value="${obj.fill || '#22d3ee'}">
+    `;
+    color.querySelector("#propFill").oninput = e => {
+      obj.fill = e.target.value;
+      renderVector();
+      renderLayerPanel();
+    };
+    propertyContent.appendChild(color);
+    propertyContent.appendChild(document.createElement("br"));
+  }
+  // Opacity
+  if ("opacity" in obj) {
+    const opacity = document.createElement("label");
+    opacity.innerHTML = `
+      <span style="margin-right:7px;">Opacity</span>
+      <input type="range" id="propOpacity" min="0" max="1" step="0.01" value="${obj.opacity || 1}" style="vertical-align:middle;">
+      <span style="margin-left:5px;" id="opacityVal">${(obj.opacity || 1)}</span>
+    `;
+    opacity.querySelector("#propOpacity").oninput = e => {
+      obj.opacity = parseFloat(e.target.value);
+      opacity.querySelector("#opacityVal").textContent = obj.opacity;
+      renderVector();
+      renderLayerPanel();
+    };
+    propertyContent.appendChild(opacity);
+    propertyContent.appendChild(document.createElement("br"));
+  }
+  // Font size (text only)
+  if (obj.type === "text") {
+    const fontSize = document.createElement("label");
+    fontSize.innerHTML = `
+      <span style="margin-right:7px;">Font Size</span>
+      <input type="number" id="propFontSize" min="8" max="200" value="${obj["font-size"] || 36}" style="width:60px;">
+    `;
+    fontSize.querySelector("#propFontSize").oninput = e => {
+      obj["font-size"] = parseInt(e.target.value);
+      renderVector();
+      renderLayerPanel();
+    };
+    propertyContent.appendChild(fontSize);
+    propertyContent.appendChild(document.createElement("br"));
+    // Font family
+    const fontFamily = document.createElement("label");
+    fontFamily.innerHTML = `
+      <span style="margin-right:7px;">Font</span>
+      <select id="propFontFamily">
+        <option value="Arial" ${obj["font-family"]==="Arial"?"selected":""}>Arial</option>
+        <option value="monospace" ${obj["font-family"]==="monospace"?"selected":""}>Monospace</option>
+        <option value="serif" ${obj["font-family"]==="serif"?"selected":""}>Serif</option>
+        <option value="Impact" ${obj["font-family"]==="Impact"?"selected":""}>Impact</option>
+      </select>
+    `;
+    fontFamily.querySelector("#propFontFamily").oninput = e => {
+      obj["font-family"] = e.target.value;
+      renderVector();
+      renderLayerPanel();
+    };
+    propertyContent.appendChild(fontFamily);
+    propertyContent.appendChild(document.createElement("br"));
+    // Edit text value
+    const textEdit = document.createElement("label");
+    textEdit.innerHTML = `
+      <span style="margin-right:7px;">Text</span>
+      <input type="text" id="propTextValue" value="${obj.value || ''}" style="width:120px;">
+    `;
+    textEdit.querySelector("#propTextValue").oninput = e => {
+      obj.value = e.target.value;
+      renderVector();
+      renderLayerPanel();
+    };
+    propertyContent.appendChild(textEdit);
+    propertyContent.appendChild(document.createElement("br"));
+  }
+}
+
+window.renderPropertyPanel = renderPropertyPanel;
+// Panggil renderPropertyPanel() setiap kali selectLayer atau edit objek
 
