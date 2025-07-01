@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skylum Draw Simple</title>
+    <link rel="stylesheet" href="src/styles/style.css">
+</head>
+<body>
+    <input type="file" id="image-loader" accept="image/*" style="display: none;">
+    <div id="share-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h3>Bagikan Link Ini</h3>
+            <p>Salin dan kirim link di bawah ini ke teman Anda untuk mulai berkolaborasi.</p>
+            <input type="text" id="share-link-input" readonly>
+            <button id="close-modal-btn">Tutup</button>
+        </div>
+    </div>
+
+    <div class="app-container">
+        
+        <div id="toolbar">
+            <div class="tool-group">
+                <h2>Tampilan</h2>
+                <label style="display: flex; align-items: center; cursor: pointer;">
+                    <input type="checkbox" id="grid-toggle">
+                    Tampilkan Grid
+                </label>
+            </div>
+            <div class="tool-group">
+                <h2>Jenis Kuas</h2>
+                <div id="brush-selector" class="brush-selector"></div>
+            </div>
+            <div class="tool-group">
+                <h2>File</h2>
+                <button id="import-btn" class="util-button">Impor Gambar</button>
+                <button id="export-png-btn" class="util-button">Ekspor PNG</button>
+                <button id="export-jpg-btn" class="util-button">Ekspor JPG</button>
+            </div>
+            <div class="tool-group">
+                <h2>Kolaborasi</h2>
+                <button id="share-btn" class="util-button">Bagikan Sesi</button>
+            </div>
+
+            <div id="raster-tools">
+                <h2>Alat</h2>
+                <div class="tool-group">
+                    <button id="undo-btn" class="util-button">Undo</button>
+                    <button id="redo-btn" class="util-button">Redo</button>
+                </div>
+                <div class="tool-group">
+                    <label for="color-picker">Warna</label>
+                    <input type="color" id="color-picker" value="#000000">
+                </div>
+                <div class="tool-group">
+                    <label for="brush-size">Ukuran <span id="brush-size-value">5</span>px</label>
+                    <input type="range" id="brush-size" min="1" max="100" value="5">
+                </div>
+                <div class="tool-group">
+                    <button id="brush-tool" class="tool-button active">Kuas (B)</button>
+                    <button id="eraser-tool" class="tool-button">Penghapus (E)</button>
+                </div>
+            </div>
+
+            <div id="vector-tools" class="tool-group" style="display: none;">
+                <h2>Alat Vektor</h2>
+                <button id="vector-draw-btn" class="tool-button">Gambar Bebas</button>
+                <button id="pen-tool-btn" class="tool-button">Pen Tool</button>
+            </div>
+        </div>
+
+        <main id="main-content">
+            <div id="canvas-container">
+                <canvas id="grid-canvas" class="grid-layer"></canvas>
+            </div>
+        </main>
+
+        <div id="layer-panel">
+            <h2>Layer</h2>
+            <button id="add-layer-btn">Tambah Layer Raster</button>
+            <button id="add-vector-layer-btn" style="margin-top: 5px;">Tambah Layer Vektor</button>
+            <div id="layer-list"></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+    <script src="src/errorHandler.js"></script>
+    <script src="src/layers.js"></script>
+    <script src="src/tools.js"></script>
+    <script src="src/history.js"></script>
+    <script src="src/websocket.js"></script>
+    <script src="src/io.js"></script>
+    <script src="src/grid.js"></script>
+    <script src="src/canvas.js"></script>
+    <script src="src/app.js"></script>
+</body>
+</html>

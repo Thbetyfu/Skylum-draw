@@ -1,0 +1,359 @@
+/* Reset & Pengaturan Dasar */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+    background-color: #1a1d21; /* Warna dasar yang lebih gelap dan netral */
+    color: #e0e0e0;
+    overflow: hidden;
+}
+
+/* Kontainer Aplikasi Utama */
+.app-container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Toolbar & Panel Layer */
+#toolbar, #layer-panel {
+    background-color: #25282e;
+    padding: 15px;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.4);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Jarak antar grup */
+}
+
+#toolbar {
+    width: 180px;
+}
+
+#layer-panel {
+    width: 240px;
+}
+
+/* Judul Grup */
+h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1em;
+    font-weight: 600;
+    color: #a0a8b4;
+    text-align: center;
+    border-bottom: 1px solid #3a3f4b;
+    padding-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Label & Input Umum */
+.tool-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.9em;
+    color: #c0c5ce;
+}
+
+/* Tombol Umum (Tool, Util, Add Layer) */
+.tool-button, .util-button, #add-layer-btn, #add-vector-layer-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    background-color: #3a3f4b;
+    color: #e0e0e0;
+    cursor: pointer;
+    text-align: center;
+    font-size: 0.9em;
+    transition: all 0.2s ease-in-out;
+}
+
+.tool-button:hover, .util-button:hover, #add-layer-btn:hover, #add-vector-layer-btn:hover {
+    background-color: #4b5260;
+    border-color: #5f6878;
+}
+
+.tool-button:active, .util-button:active, #add-layer-btn:active, #add-vector-layer-btn:active {
+    transform: scale(0.97); /* Efek ditekan */
+    background-color: #31363f;
+}
+
+.tool-button.active, .brush-preview.active {
+    background-color: #3d8bfd; /* Warna aksen biru */
+    color: white;
+    border-color: #3d8bfd;
+    box-shadow: 0 0 8px rgba(61, 139, 253, 0.5);
+}
+
+/* Input Range & Color */
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    background: #3a3f4b;
+    border-radius: 5px;
+    outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: #a0a8b4;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid #25282e;
+}
+input[type="color"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 30px;
+    border: none;
+    padding: 0;
+    background-color: transparent;
+    border-radius: 6px;
+    overflow: hidden;
+}
+input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+input[type="color"]::-webkit-color-swatch {
+    border: 1px solid #5f6878;
+    border-radius: 6px;
+}
+
+/* Area Kanvas Utama */
+#main-content {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #31363f;
+    overflow: hidden;
+    position: relative; /* Untuk efek partikel */
+}
+
+/* --- EFEK PARTIKEL LATAR BELAKANG --- */
+@keyframes drift {
+    from { transform: translateY(0px); }
+    to { transform: translateY(-1000px); }
+}
+
+#main-content::before, #main-content::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2000px; /* Lebih tinggi dari viewport */
+    top: 0;
+    left: 0;
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-repeat: repeat;
+    will-change: transform;
+}
+
+#main-content::before {
+    background-size: 40px 40px;
+    animation: drift 60s linear infinite;
+}
+
+#main-content::after {
+    background-size: 60px 60px;
+    animation: drift 80s linear infinite;
+    animation-delay: -10s;
+}
+/* --- AKHIR EFEK PARTIKEL --- */
+
+/* Kontainer Kanvas */
+#canvas-container {
+    position: relative;
+    width: 800px;
+    height: 600px;
+    box-shadow: 0 0 25px rgba(0,0,0,0.5);
+    background-color: white;
+    transform-origin: center center;
+    transition: transform 0.1s ease-out;
+    border-radius: 4px;
+}
+
+/* Layer Kanvas Individual */
+.drawing-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: transparent;
+    z-index: 10;
+}
+
+/* Tombol Tambah Layer */
+#add-layer-btn, #add-vector-layer-btn {
+    background-color: #3d8bfd;
+    color: white;
+}
+
+/* Item Layer Individual */
+.layer-item {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: #3a3f4b;
+    border: 1px solid #3a3f4b;
+    border-left: 4px solid transparent; /* Untuk indikator aktif */
+    border-radius: 4px;
+    cursor: grab;
+    transition: all 0.2s ease-in-out;
+}
+
+.layer-item:hover {
+    background-color: #4b5260;
+}
+
+.layer-item.active {
+    background-color: #424854;
+    border-left-color: #3d8bfd; /* Indikator aktif */
+}
+
+.layer-name {
+    font-weight: bold;
+    margin-bottom: 8px;
+    pointer-events: none;
+    color: #e0e0e0;
+}
+
+.layer-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: none;
+}
+.layer-controls label {
+    font-size: 0.8em;
+    color: #ccc;
+}
+.layer-controls input[type="range"],
+.layer-controls select {
+    width: 100%;
+    pointer-events: auto;
+    cursor: pointer;
+    background-color: #25282e;
+    color: #e0e0e0;
+    border: 1px solid #5f6878;
+    border-radius: 4px;
+    padding: 2px;
+}
+
+/* Feedback Drag & Drop */
+.layer-item.dragging {
+    opacity: 0.5;
+    background: #4b5260;
+}
+.drag-over {
+    border-top: 2px dashed #3d8bfd;
+}
+
+/* Modal Kolaborasi */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.modal-content {
+    background-color: #25282e;
+    padding: 25px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    border: 1px solid #3a3f4b;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+.modal-content input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 15px 0;
+    background-color: #1a1d21;
+    color: #e0e0e0;
+    border: 1px solid #3a3f4b;
+    border-radius: 4px;
+    text-align: center;
+}
+.modal-content button {
+    padding: 10px 20px;
+    background-color: #3d8bfd;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+.modal-content button:hover {
+    background-color: #529aff;
+}
+
+/* Pilihan Kuas */
+.brush-selector {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 5px;
+}
+.brush-preview {
+    height: 35px;
+    border: 2px solid #3a3f4b;
+    cursor: pointer;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #a0a8b4;
+    background-color: #25282e;
+    transition: all 0.2s ease;
+}
+.brush-preview:hover {
+    border-color: #5f6878;
+    color: #e0e0e0;
+}
+
+/* Kanvas Grid */
+.grid-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+}
+
+#error-notification {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #e74c3c;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    z-index: 9999;
+    font-size: 16px;
+    font-weight: bold;
+    max-width: 80%;
+    text-align: center;
+    transition: opacity 0.5s ease-in-out;
+}
